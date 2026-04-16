@@ -6,7 +6,7 @@
 <meta name="theme-color" content="#079897"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
 <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<title>InternPulse</title>
+<title>InternLink — YSH</title>
 <link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;InternLink YSH&quot;,&quot;short_name&quot;:&quot;InternLink&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;%23f7f9f9&quot;,&quot;theme_color&quot;:&quot;%23079897&quot;}"/>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
 <link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
@@ -218,13 +218,21 @@ h1,h2,h3,.serif{font-family:'DM Serif Display',serif;}
   <div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" id="f-name" placeholder="Dr. / Mr. / Ms. Full Name"/></div>
   <div class="form-group"><label class="form-label">College / Institution *</label><input class="form-input" id="f-college" placeholder="Institution name"/></div>
   <div class="form-row">
-    <div class="form-group"><label class="form-label">Department</label><input class="form-input" id="f-dept" placeholder="e.g. Quality, Emergency"/></div>
-    <div class="form-group"><label class="form-label">Academic Year</label><input class="form-input" id="f-year" placeholder="e.g. 3rd Year BHA"/></div>
+    <div class="form-group"><label class="form-label">Department</label><input class="form-input" id="f-dept" placeholder="e.g. ENT, Medicine"/></div>
+    <div class="form-group"><label class="form-label">Academic Year</label><input class="form-input" id="f-year" placeholder="e.g. 3rd Year MBBS"/></div>
   </div>
 
   <div class="form-section">Posting Details</div>
-  <div class="form-group"><label class="form-label">Posting Location</label><input class="form-input" id="f-location" placeholder="e.g. Emergency"/></div>
-    <div class="form-row">
+  <div class="form-group"><label class="form-label">Posting Location *</label>
+    <select class="form-select" id="f-location">
+      <option value="">— Select —</option>
+      <option>ENT OPD</option><option>ENT OT</option><option>ICU</option><option>Emergency</option>
+      <option>Radiology</option><option>Pharmacy</option><option>Lab</option><option>Paediatrics</option>
+      <option>Orthopaedics</option><option>Ophthalmology</option><option>General Medicine</option>
+      <option>General Surgery</option><option>Administration</option><option>Other</option>
+    </select>
+  </div>
+  <div class="form-row">
     <div class="form-group"><label class="form-label">Start Date</label><input class="form-input" type="date" id="f-start"/></div>
     <div class="form-group"><label class="form-label">End Date</label><input class="form-input" type="date" id="f-end"/></div>
   </div>
