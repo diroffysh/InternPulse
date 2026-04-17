@@ -1,0 +1,329 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
+<meta name="theme-color" content="#079897"/>
+<meta name="apple-mobile-web-app-capable" content="yes"/>
+<title>InternPulse — Register</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
+<style>
+:root{
+  --teal:#079897;--teal-deep:#045f5e;--teal-mid:#0ab8b7;
+  --teal-glow:rgba(7,152,151,0.18);--teal-pale:#e8f8f8;
+  --gold:#c9a84c;--ink:#0a1f1f;--ink2:#1e3a3a;--slate:#4a7070;
+  --mist:#8eacac;--border:#cce3e3;--bg:#f2fafa;--white:#ffffff;
+  --shadow:0 4px 24px rgba(7,152,151,0.14);
+  --shadow-lg:0 12px 48px rgba(7,152,151,0.20);
+  --r:18px;--r-sm:11px;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;}
+
+/* HEADER */
+.header{
+  background:linear-gradient(135deg,var(--teal-deep) 0%,var(--teal) 60%,var(--teal-mid) 100%);
+  padding:0;position:relative;overflow:hidden;
+}
+.header-pattern{
+  position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.05'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.header-blob1{position:absolute;right:-60px;top:-60px;width:200px;height:200px;border-radius:50%;background:rgba(255,255,255,0.06);}
+.header-blob2{position:absolute;left:-40px;bottom:-60px;width:160px;height:160px;border-radius:50%;background:rgba(255,255,255,0.04);}
+.header-inner{position:relative;z-index:1;padding:32px 24px 28px;}
+.header-logo{
+  width:52px;height:52px;border-radius:14px;
+  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:1.5rem;font-weight:600;color:#fff;
+  margin-bottom:16px;backdrop-filter:blur(8px);
+}
+.header-hospital{font-size:0.65rem;color:rgba(255,255,255,0.65);letter-spacing:0.12em;text-transform:uppercase;margin-bottom:4px;}
+.header-title{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:#fff;line-height:1.1;}
+.header-sub{font-family:'Cormorant Garamond',serif;font-style:italic;font-size:1rem;color:rgba(255,255,255,0.7);margin-top:4px;}
+.header-pill{
+  display:inline-flex;align-items:center;gap:6px;
+  background:rgba(255,255,255,0.15);border:1px solid rgba(255,255,255,0.25);
+  color:#fff;font-size:0.68rem;padding:5px 12px;border-radius:20px;
+  margin-top:14px;backdrop-filter:blur(8px);
+}
+.header-pill-dot{width:6px;height:6px;border-radius:50%;background:#4ade80;animation:pulse 2s infinite;}
+@keyframes pulse{0%,100%{opacity:1;}50%{opacity:0.4;}}
+
+/* MAIN */
+.main{padding:24px 20px 48px;max-width:520px;margin:0 auto;}
+
+/* NOTICE CARD */
+.notice{
+  background:linear-gradient(135deg,#fffbeb,#fef9ec);
+  border:1px solid #fcd34d;border-radius:var(--r-sm);
+  padding:14px 16px;margin-bottom:22px;
+  display:flex;gap:10px;align-items:flex-start;
+}
+.notice-icon{font-size:1.2rem;flex-shrink:0;margin-top:1px;}
+.notice-text{font-size:0.78rem;color:#92400e;line-height:1.6;}
+.notice-bold{font-weight:600;display:block;margin-bottom:2px;}
+
+/* FORM */
+.form-card{
+  background:var(--white);border-radius:var(--r);
+  border:1px solid var(--border);padding:22px;
+  box-shadow:var(--shadow);margin-bottom:16px;
+}
+.section-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.15rem;font-weight:600;
+  color:var(--teal-deep);margin-bottom:16px;
+  display:flex;align-items:center;gap:8px;
+}
+.section-title::before{content:'';width:3px;height:18px;background:var(--teal);border-radius:2px;display:block;}
+.form-group{margin-bottom:14px;}
+.form-label{font-size:0.68rem;font-weight:600;color:var(--slate);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.05em;}
+.required{color:var(--teal);margin-left:2px;}
+.form-input,.form-textarea{
+  width:100%;padding:12px 14px;
+  border:1.5px solid var(--border);border-radius:var(--r-sm);
+  font-family:'Outfit',sans-serif;font-size:0.9rem;color:var(--ink);
+  background:var(--white);outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+}
+.form-input:focus,.form-textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+.form-textarea{min-height:90px;resize:vertical;}
+.form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
+.form-hint{font-size:0.65rem;color:var(--mist);margin-top:4px;}
+
+/* SUBMIT */
+.submit-btn{
+  width:100%;padding:16px;border:none;border-radius:var(--r-sm);
+  background:linear-gradient(135deg,var(--teal-deep),var(--teal));
+  color:#fff;font-family:'Outfit',sans-serif;font-weight:600;font-size:1rem;
+  cursor:pointer;letter-spacing:0.03em;
+  box-shadow:0 6px 24px var(--teal-glow);
+  transition:all 0.2s;display:flex;align-items:center;justify-content:center;gap:8px;
+}
+.submit-btn:hover{transform:translateY(-2px);box-shadow:0 10px 32px var(--teal-glow);}
+.submit-btn:active{transform:translateY(0);}
+.submit-btn:disabled{opacity:0.6;cursor:not-allowed;transform:none;}
+
+/* SUCCESS */
+.success-screen{
+  display:none;text-align:center;padding:40px 24px;
+  animation:rise 0.4s cubic-bezier(0.22,1,0.36,1);
+}
+@keyframes rise{from{opacity:0;transform:translateY(20px);}to{opacity:1;transform:translateY(0);}}
+.success-circle{
+  width:88px;height:88px;border-radius:50%;
+  background:linear-gradient(135deg,#16a34a,#22c55e);
+  display:flex;align-items:center;justify-content:center;
+  font-size:2.5rem;margin:0 auto 20px;
+  box-shadow:0 8px 32px rgba(22,163,74,0.3);
+  animation:popIn 0.5s 0.1s cubic-bezier(0.22,1,0.36,1) both;
+}
+@keyframes popIn{from{transform:scale(0.5);}to{transform:scale(1);}}
+.success-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:var(--ink);margin-bottom:8px;}
+.success-sub{font-size:0.875rem;color:var(--mist);line-height:1.7;max-width:280px;margin:0 auto;}
+.success-name{color:var(--teal);font-weight:600;}
+.success-note{
+  background:var(--teal-pale);border-radius:var(--r-sm);
+  padding:14px 16px;margin-top:20px;text-align:left;
+  border:1px solid var(--border);
+}
+.success-note-title{font-size:0.72rem;font-weight:600;color:var(--teal-deep);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;}
+.success-note-text{font-size:0.78rem;color:var(--slate);line-height:1.6;}
+
+/* FOOTER */
+.footer{text-align:center;padding:20px;font-size:0.65rem;color:var(--mist);letter-spacing:0.04em;text-transform:uppercase;}
+.footer span{color:var(--teal);}
+
+/* ERROR */
+.field-error{font-size:0.65rem;color:#dc2626;margin-top:3px;}
+
+/* DECORATIVE MEDICAL CROSS */
+.deco-cross{
+  display:inline-block;width:28px;height:28px;position:relative;
+  margin:0 4px;vertical-align:middle;opacity:0.2;
+}
+.deco-cross::before,.deco-cross::after{
+  content:'';position:absolute;background:var(--teal);border-radius:2px;
+}
+.deco-cross::before{width:8px;height:28px;left:10px;top:0;}
+.deco-cross::after{width:28px;height:8px;left:0;top:10px;}
+</style>
+</head>
+<body>
+
+<!-- HEADER -->
+<div class="header">
+  <div class="header-blob1"></div>
+  <div class="header-blob2"></div>
+  <div class="header-inner">
+    <div class="header-logo">YSH</div>
+    <div class="header-hospital">Yenepoya Specialty Hospital · Mangalore</div>
+    <div class="header-title">Intern Registration</div>
+    <div class="header-sub">Academic Posting Programme</div>
+    <div class="header-pill">
+      <div class="header-pill-dot"></div>
+      Secure · Takes 2 minutes
+    </div>
+  </div>
+</div>
+
+<!-- FORM -->
+<div class="main" id="form-wrapper">
+
+  <div class="notice">
+    <div class="notice-icon">ℹ️</div>
+    <div class="notice-text">
+      <span class="notice-bold">Only your academic details are needed here.</span>
+      Your posting location and mentor will be assigned by the Academic Coordinator after your arrival.
+    </div>
+  </div>
+
+  <form id="intern-form" onsubmit="return false;">
+
+    <div class="form-card">
+      <div class="section-title">Personal Details</div>
+
+      <div class="form-group">
+        <label class="form-label">Full Name <span class="required">*</span></label>
+        <input class="form-input" id="r-name" placeholder="Your full name" autocomplete="name"/>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Phone <span class="required">*</span></label>
+          <input class="form-input" id="r-phone" type="tel" placeholder="10-digit number" autocomplete="tel"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Email</label>
+          <input class="form-input" id="r-email" type="email" placeholder="your@email.com" autocomplete="email"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="section-title">Academic Details</div>
+
+      <div class="form-group">
+        <label class="form-label">College / Institution <span class="required">*</span></label>
+        <input class="form-input" id="r-college" placeholder="Full institution name" autocomplete="organization"/>
+      </div>
+
+      <div class="form-row">
+        <div class="form-group">
+          <label class="form-label">Department <span class="required">*</span></label>
+          <input class="form-input" id="r-dept" placeholder="e.g. ENT, Medicine"/>
+        </div>
+        <div class="form-group">
+          <label class="form-label">Academic Year <span class="required">*</span></label>
+          <input class="form-input" id="r-year" placeholder="e.g. 3rd Year MBBS"/>
+        </div>
+      </div>
+    </div>
+
+    <div class="form-card">
+      <div class="section-title">Your Objective</div>
+      <div class="form-group">
+        <label class="form-label">What do you hope to learn here?</label>
+        <textarea class="form-textarea" id="r-objective" placeholder="Describe what you hope to learn, skills you want to develop, or what interests you about this posting…"></textarea>
+        <div class="form-hint">Optional but helpful for your mentor to plan your experience.</div>
+      </div>
+    </div>
+
+    <button class="submit-btn" id="submit-btn" onclick="submitRegistration()">
+      <span id="btn-text">Submit Registration</span>
+      <span id="btn-icon">→</span>
+    </button>
+
+    <div class="footer">
+      <span>InternPulse</span> · Yenepoya Specialty Hospital · Confidential
+    </div>
+
+  </form>
+
+  <!-- SUCCESS STATE -->
+  <div class="success-screen" id="success-screen">
+    <div class="success-circle">✓</div>
+    <div class="success-title">You're registered!</div>
+    <div class="success-sub">Welcome, <span class="success-name" id="success-name"></span>.<br>Your details have been recorded successfully.</div>
+    <div class="success-note" style="margin-top:24px;">
+      <div class="success-note-title">What happens next?</div>
+      <div class="success-note-text">
+        The Academic Coordinator will review your registration and assign your posting location and mentor. You'll be notified once everything is set up. Please report to the hospital as scheduled.
+      </div>
+    </div>
+    <div class="footer" style="margin-top:20px;">
+      <span>InternPulse</span> · Yenepoya Specialty Hospital
+    </div>
+  </div>
+
+</div>
+
+<script>
+const SUPA_URL = 'https://qkyunliqrsgtrhuoynnn.supabase.co';
+const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreXVubGlxcnNndHJodW95bm5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTExNjUsImV4cCI6MjA4OTQ4NzE2NX0.w3XphRDVgud5xwH6xgKNiSdT3jx2YnnMYnKafQ-J244';
+const db = supabase.createClient(SUPA_URL, SUPA_KEY);
+
+async function submitRegistration() {
+  const name    = document.getElementById('r-name').value.trim();
+  const phone   = document.getElementById('r-phone').value.trim();
+  const college = document.getElementById('r-college').value.trim();
+  const dept    = document.getElementById('r-dept').value.trim();
+  const year    = document.getElementById('r-year').value.trim();
+
+  if (!name)    { flash('r-name',   'Name is required'); return; }
+  if (!phone)   { flash('r-phone',  'Phone is required'); return; }
+  if (!college) { flash('r-college','Institution name is required'); return; }
+  if (!dept)    { flash('r-dept',   'Department is required'); return; }
+  if (!year)    { flash('r-year',   'Academic year is required'); return; }
+
+  const btn = document.getElementById('submit-btn');
+  btn.disabled = true;
+  document.getElementById('btn-text').textContent = 'Submitting…';
+  document.getElementById('btn-icon').textContent = '⏳';
+
+  const { error } = await db.from('interns').insert({
+    full_name:    name,
+    phone:        phone,
+    email:        document.getElementById('r-email').value.trim() || null,
+    college:      college,
+    department:   dept,
+    academic_year: year,
+    objective:    document.getElementById('r-objective').value.trim() || null,
+    // posting_location, mentor etc. left null — to be assigned by coordinator
+  });
+
+  if (error) {
+    btn.disabled = false;
+    document.getElementById('btn-text').textContent = 'Submit Registration';
+    document.getElementById('btn-icon').textContent = '→';
+    alert('Something went wrong. Please try again or contact the coordinator.\n\nError: ' + error.message);
+    return;
+  }
+
+  // Show success
+  document.getElementById('intern-form').style.display = 'none';
+  document.querySelector('.notice').style.display = 'none';
+  document.getElementById('success-name').textContent = name.split(' ')[0];
+  document.getElementById('success-screen').style.display = 'block';
+}
+
+function flash(fieldId, msg) {
+  const el = document.getElementById(fieldId);
+  el.style.borderColor = '#dc2626';
+  el.focus();
+  // Remove old hint
+  const old = el.parentNode.querySelector('.field-error');
+  if (old) old.remove();
+  const hint = document.createElement('div');
+  hint.className = 'field-error';
+  hint.textContent = msg;
+  el.parentNode.appendChild(hint);
+  setTimeout(() => { el.style.borderColor=''; if(hint.parentNode) hint.remove(); }, 3000);
+}
+</script>
+</body>
+</html>
