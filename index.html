@@ -5,283 +5,546 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0"/>
 <meta name="theme-color" content="#079897"/>
 <meta name="apple-mobile-web-app-capable" content="yes"/>
-<meta name="apple-mobile-web-app-status-bar-style" content="black-translucent"/>
-<title>InternLink — YSH</title>
-<link rel="manifest" href="data:application/json,{&quot;name&quot;:&quot;InternLink YSH&quot;,&quot;short_name&quot;:&quot;InternLink&quot;,&quot;start_url&quot;:&quot;.&quot;,&quot;display&quot;:&quot;standalone&quot;,&quot;background_color&quot;:&quot;%23f7f9f9&quot;,&quot;theme_color&quot;:&quot;%23079897&quot;}"/>
+<title>InternPulse — YSH</title>
 <link rel="preconnect" href="https://fonts.googleapis.com"/>
-<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Sans:wght@300;400;500;600&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,600;1,300;1,400&family=Outfit:wght@300;400;500;600&display=swap" rel="stylesheet"/>
 <script src="https://cdn.jsdelivr.net/npm/@supabase/supabase-js@2"></script>
 <style>
 :root {
-  --teal: #079897;
-  --teal-dark: #056b6a;
-  --teal-light: #e0f5f5;
-  --teal-pale: #f0fafa;
-  --green: #22c55e;
-  --green-light: #dcfce7;
-  --amber: #f59e0b;
-  --amber-light: #fef3c7;
-  --red: #ef4444;
-  --red-light: #fee2e2;
-  --ink: #0f2b2b;
-  --ink2: #2d4a4a;
-  --muted: #7a9e9e;
-  --border: #d0e8e8;
-  --bg: #f4fafa;
-  --white: #ffffff;
-  --card: #ffffff;
-  --shadow: 0 2px 16px rgba(7,152,151,0.10);
-  --shadow-lg: 0 8px 40px rgba(7,152,151,0.16);
-  --radius: 16px;
-  --radius-sm: 10px;
+  --teal:       #079897;
+  --teal-deep:  #045f5e;
+  --teal-mid:   #0ab8b7;
+  --teal-glow:  rgba(7,152,151,0.18);
+  --teal-pale:  #e8f8f8;
+  --gold:       #c9a84c;
+  --gold-light: #f5e9c8;
+  --green:      #16a34a;
+  --green-soft: #dcfce7;
+  --amber:      #d97706;
+  --red:        #dc2626;
+  --red-soft:   #fee2e2;
+  --ink:        #0a1f1f;
+  --ink2:       #1e3a3a;
+  --slate:      #4a7070;
+  --mist:       #8eacac;
+  --border:     #cce3e3;
+  --bg:         #f2fafa;
+  --white:      #ffffff;
+  --shadow-sm:  0 2px 12px rgba(7,152,151,0.10);
+  --shadow:     0 4px 24px rgba(7,152,151,0.14);
+  --shadow-lg:  0 12px 48px rgba(7,152,151,0.20);
+  --r:          18px;
+  --r-sm:       11px;
 }
 *{box-sizing:border-box;margin:0;padding:0;}
-body{font-family:'DM Sans',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
-h1,h2,h3,.serif{font-family:'DM Serif Display',serif;}
+html{scroll-behavior:smooth;}
+body{font-family:'Outfit',sans-serif;background:var(--bg);color:var(--ink);min-height:100vh;overflow-x:hidden;}
 
-/* LAYOUT */
-#app{display:flex;flex-direction:column;min-height:100vh;}
-.topbar{background:var(--teal);color:#fff;padding:14px 20px 12px;display:flex;align-items:center;justify-content:space-between;position:sticky;top:0;z-index:100;box-shadow:0 2px 12px rgba(7,152,151,0.3);}
-.topbar-title{font-family:'DM Serif Display',serif;font-size:1.25rem;letter-spacing:0.02em;}
-.topbar-sub{font-size:0.7rem;opacity:0.75;margin-top:1px;}
-.topbar-actions{display:flex;gap:8px;}
-.icon-btn{background:rgba(255,255,255,0.15);border:none;color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:1rem;transition:background 0.2s;}
-.icon-btn:hover{background:rgba(255,255,255,0.25);}
+/* ── TOPBAR ── */
+.topbar{
+  background:linear-gradient(135deg, var(--teal-deep) 0%, var(--teal) 60%, var(--teal-mid) 100%);
+  color:#fff;padding:0 20px;height:62px;
+  display:flex;align-items:center;justify-content:space-between;
+  position:sticky;top:0;z-index:100;
+  box-shadow:0 4px 24px rgba(7,152,151,0.35);
+}
+.topbar::after{
+  content:'';position:absolute;inset:0;
+  background:url("data:image/svg+xml,%3Csvg width='60' height='60' viewBox='0 0 60 60' xmlns='http://www.w3.org/2000/svg'%3E%3Cg fill='none' fill-rule='evenodd'%3E%3Cg fill='%23ffffff' fill-opacity='0.04'%3E%3Cpath d='M36 34v-4h-2v4h-4v2h4v4h2v-4h4v-2h-4zm0-30V0h-2v4h-4v2h4v4h2V6h4V4h-4zM6 34v-4H4v4H0v2h4v4h2v-4h4v-2H6zM6 4V0H4v4H0v2h4v4h2V6h4V4H6z'/%3E%3C/g%3E%3C/g%3E%3C/svg%3E");
+  pointer-events:none;
+}
+.topbar-brand{display:flex;align-items:center;gap:12px;position:relative;}
+.brand-mark{
+  width:38px;height:38px;border-radius:10px;
+  background:rgba(255,255,255,0.15);
+  border:1px solid rgba(255,255,255,0.25);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;
+  backdrop-filter:blur(8px);
+}
+.brand-name{font-family:'Cormorant Garamond',serif;font-size:1.4rem;font-weight:600;letter-spacing:0.03em;}
+.brand-sub{font-size:0.62rem;opacity:0.7;letter-spacing:0.08em;text-transform:uppercase;margin-top:-2px;}
+.topbar-right{display:flex;gap:8px;position:relative;}
+.icon-btn{
+  background:rgba(255,255,255,0.12);border:1px solid rgba(255,255,255,0.2);
+  color:#fff;width:36px;height:36px;border-radius:50%;cursor:pointer;
+  display:flex;align-items:center;justify-content:center;font-size:0.9rem;
+  transition:all 0.2s;backdrop-filter:blur(8px);
+}
+.icon-btn:hover{background:rgba(255,255,255,0.22);}
 
-/* BOTTOM NAV */
-.bottom-nav{position:fixed;bottom:0;left:0;right:0;background:var(--white);border-top:1px solid var(--border);display:flex;z-index:100;box-shadow:0 -4px 20px rgba(7,152,151,0.10);}
-.nav-item{flex:1;display:flex;flex-direction:column;align-items:center;padding:10px 4px 8px;cursor:pointer;border:none;background:none;color:var(--muted);font-family:'DM Sans',sans-serif;font-size:0.65rem;gap:4px;transition:color 0.2s;}
+/* ── BOTTOM NAV ── */
+.bottom-nav{
+  position:fixed;bottom:0;left:0;right:0;
+  background:rgba(255,255,255,0.95);
+  backdrop-filter:blur(20px);
+  border-top:1px solid var(--border);
+  display:flex;z-index:100;
+  box-shadow:0 -4px 30px rgba(7,152,151,0.12);
+}
+.nav-item{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  padding:10px 4px 8px;cursor:pointer;border:none;background:none;
+  color:var(--mist);font-family:'Outfit',sans-serif;font-size:0.6rem;
+  gap:3px;transition:color 0.2s;letter-spacing:0.04em;text-transform:uppercase;
+}
 .nav-item.active{color:var(--teal);}
-.nav-item svg{width:22px;height:22px;}
-.nav-dot{width:5px;height:5px;border-radius:50%;background:var(--teal);margin-top:2px;opacity:0;}
-.nav-item.active .nav-dot{opacity:1;}
+.nav-item svg{width:20px;height:20px;stroke-width:1.8;}
+.nav-pip{width:4px;height:4px;border-radius:50%;background:var(--teal);margin-top:1px;opacity:0;transition:opacity 0.2s;}
+.nav-item.active .nav-pip{opacity:1;}
 
-/* SCREENS */
-.screen{display:none;padding:16px 16px 90px;animation:fadeUp 0.25s ease;}
+/* ── SCREENS ── */
+.screen{display:none;padding:18px 16px 96px;animation:rise 0.3s cubic-bezier(0.22,1,0.36,1);}
 .screen.active{display:block;}
-@keyframes fadeUp{from{opacity:0;transform:translateY(10px);}to{opacity:1;transform:translateY(0);}}
+@keyframes rise{from{opacity:0;transform:translateY(14px);}to{opacity:1;transform:translateY(0);}}
 
-/* CARDS */
-.card{background:var(--card);border-radius:var(--radius);box-shadow:var(--shadow);padding:18px;margin-bottom:14px;border:1px solid var(--border);}
-.card-sm{padding:14px;}
+/* ── HERO STAT BAR ── */
+.hero-bar{
+  background:linear-gradient(135deg,var(--teal-deep),var(--teal));
+  border-radius:var(--r);padding:20px;margin-bottom:18px;
+  position:relative;overflow:hidden;
+  box-shadow:var(--shadow-lg);
+}
+.hero-bar::before{
+  content:'';position:absolute;right:-30px;top:-30px;
+  width:140px;height:140px;border-radius:50%;
+  background:rgba(255,255,255,0.06);
+}
+.hero-bar::after{
+  content:'';position:absolute;right:40px;bottom:-40px;
+  width:100px;height:100px;border-radius:50%;
+  background:rgba(255,255,255,0.04);
+}
+.hero-greeting{font-family:'Cormorant Garamond',serif;font-size:1.05rem;color:rgba(255,255,255,0.75);font-style:italic;}
+.hero-title{font-family:'Cormorant Garamond',serif;font-size:1.8rem;font-weight:600;color:#fff;line-height:1.1;margin:2px 0 14px;}
+.hero-stats{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;position:relative;}
+.hero-stat{background:rgba(255,255,255,0.12);border-radius:12px;padding:12px 10px;text-align:center;border:1px solid rgba(255,255,255,0.15);backdrop-filter:blur(8px);}
+.hero-stat-num{font-family:'Cormorant Garamond',serif;font-size:2rem;font-weight:600;color:#fff;line-height:1;}
+.hero-stat-label{font-size:0.6rem;color:rgba(255,255,255,0.65);margin-top:3px;text-transform:uppercase;letter-spacing:0.06em;}
 
-/* STAT STRIP */
-.stat-strip{display:grid;grid-template-columns:repeat(3,1fr);gap:10px;margin-bottom:18px;}
-.stat-card{background:var(--white);border-radius:var(--radius-sm);padding:14px 10px;text-align:center;border:1px solid var(--border);box-shadow:var(--shadow);}
-.stat-num{font-family:'DM Serif Display',serif;font-size:1.8rem;color:var(--teal);line-height:1;}
-.stat-label{font-size:0.65rem;color:var(--muted);margin-top:4px;text-transform:uppercase;letter-spacing:0.05em;}
+/* ── PENDING BANNER ── */
+.pending-banner{
+  background:linear-gradient(135deg,#fef3c7,#fde68a);
+  border:1px solid #f59e0b;border-radius:var(--r-sm);
+  padding:14px 16px;margin-bottom:16px;
+  display:flex;align-items:center;gap:12px;cursor:pointer;
+  box-shadow:0 2px 12px rgba(245,158,11,0.2);
+  transition:transform 0.2s;
+}
+.pending-banner:hover{transform:translateY(-1px);}
+.pending-icon{font-size:1.5rem;flex-shrink:0;}
+.pending-text{flex:1;}
+.pending-title{font-weight:600;color:#92400e;font-size:0.9rem;}
+.pending-sub{font-size:0.72rem;color:#b45309;margin-top:1px;}
+.pending-arrow{color:#b45309;font-size:1.1rem;}
 
-/* INTERN CARD with checklist split */
-.intern-card{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);box-shadow:var(--shadow);margin-bottom:14px;overflow:hidden;display:flex;}
-.intern-card-left{flex:1;padding:16px;}
-.intern-card-right{width:140px;border-left:1px solid var(--border);background:var(--teal-pale);padding:12px 10px;display:flex;flex-direction:column;gap:6px;flex-shrink:0;}
-.intern-name{font-family:'DM Serif Display',serif;font-size:1.05rem;color:var(--ink);margin-bottom:2px;}
-.intern-meta{font-size:0.72rem;color:var(--muted);margin-bottom:8px;}
-.intern-badge{display:inline-block;background:var(--teal-light);color:var(--teal-dark);font-size:0.65rem;padding:3px 8px;border-radius:20px;font-weight:600;}
-.intern-mentor{font-size:0.75rem;color:var(--ink2);margin-top:6px;}
+/* ── SECTION HEADER ── */
+.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
+.section-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;color:var(--ink);}
 
-/* CHECKLIST */
-.check-item{display:flex;align-items:center;gap:6px;font-size:0.68rem;color:var(--ink2);}
-.check-icon{width:18px;height:18px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;font-size:0.7rem;}
-.check-icon.done{background:var(--green);color:#fff;}
-.check-icon.pending{background:#e5e7eb;color:#9ca3af;}
-.check-label{line-height:1.2;}
+/* ── SEARCH ── */
+.search-wrap{position:relative;margin-bottom:14px;}
+.search-wrap input{
+  width:100%;padding:12px 16px 12px 44px;
+  border:1.5px solid var(--border);border-radius:30px;
+  font-family:'Outfit',sans-serif;font-size:0.875rem;
+  background:var(--white);color:var(--ink);outline:none;
+  transition:border-color 0.2s,box-shadow 0.2s;
+  box-shadow:var(--shadow-sm);
+}
+.search-wrap input:focus{border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);}
+.search-ico{position:absolute;left:15px;top:50%;transform:translateY(-50%);color:var(--mist);font-size:1rem;}
 
-/* PROGRESS BAR */
-.progress-bar{height:4px;background:#e5e7eb;border-radius:2px;margin-top:8px;overflow:hidden;}
-.progress-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--teal),var(--green));transition:width 0.5s ease;}
+/* ── CHIP FILTER ── */
+.chip-row{display:flex;gap:7px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:none;}
+.chip-row::-webkit-scrollbar{display:none;}
+.chip{
+  padding:6px 14px;border-radius:20px;font-size:0.7rem;font-weight:500;
+  cursor:pointer;border:1.5px solid var(--border);background:var(--white);
+  color:var(--slate);white-space:nowrap;transition:all 0.2s;
+  box-shadow:var(--shadow-sm);
+}
+.chip.active{background:var(--teal);color:#fff;border-color:var(--teal);box-shadow:0 4px 12px var(--teal-glow);}
 
-/* FORMS */
+/* ── INTERN CARD ── redesigned with left-prominent profile ── */
+.intern-card{
+  background:var(--white);border-radius:var(--r);
+  border:1px solid var(--border);
+  box-shadow:var(--shadow-sm);
+  margin-bottom:14px;overflow:hidden;
+  display:flex;cursor:pointer;
+  transition:transform 0.2s,box-shadow 0.2s;
+  position:relative;
+}
+.intern-card:hover{transform:translateY(-2px);box-shadow:var(--shadow);}
+.intern-card:active{transform:translateY(0);}
+
+/* LEFT PROFILE PANEL — 1/4 width, prominent */
+.card-profile{
+  width:26%;flex-shrink:0;
+  background:linear-gradient(160deg,var(--teal-deep) 0%,var(--teal) 100%);
+  display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:16px 8px;
+  position:relative;overflow:hidden;
+}
+.card-profile::before{
+  content:'';position:absolute;bottom:-20px;left:-20px;
+  width:80px;height:80px;border-radius:50%;
+  background:rgba(255,255,255,0.07);
+}
+.card-profile::after{
+  content:'';position:absolute;top:-10px;right:-10px;
+  width:50px;height:50px;border-radius:50%;
+  background:rgba(255,255,255,0.05);
+}
+.profile-avatar{
+  width:52px;height:52px;border-radius:50%;
+  background:rgba(255,255,255,0.2);
+  border:2px solid rgba(255,255,255,0.35);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;
+  color:#fff;margin-bottom:8px;position:relative;z-index:1;
+  box-shadow:0 4px 16px rgba(0,0,0,0.2);
+}
+.profile-initials-label{
+  font-size:0.55rem;color:rgba(255,255,255,0.65);
+  text-transform:uppercase;letter-spacing:0.06em;
+  text-align:center;position:relative;z-index:1;
+}
+.profile-college-badge{
+  margin-top:6px;background:rgba(255,255,255,0.15);
+  border-radius:6px;padding:3px 6px;
+  font-size:0.5rem;color:rgba(255,255,255,0.8);
+  text-align:center;line-height:1.3;
+  position:relative;z-index:1;
+  border:1px solid rgba(255,255,255,0.2);
+  max-width:100%;word-break:break-word;
+}
+
+/* RIGHT CONTENT */
+.card-body{flex:1;padding:14px 12px 12px;display:flex;flex-direction:column;min-width:0;}
+.card-name{font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;color:var(--ink);white-space:nowrap;overflow:hidden;text-overflow:ellipsis;}
+.card-sub{font-size:0.68rem;color:var(--mist);margin-top:1px;margin-bottom:8px;}
+.card-posting{
+  display:inline-flex;align-items:center;gap:5px;
+  background:var(--teal-pale);color:var(--teal-deep);
+  font-size:0.65rem;font-weight:600;padding:3px 9px;border-radius:20px;
+  margin-bottom:8px;letter-spacing:0.03em;
+}
+.card-mentor{font-size:0.72rem;color:var(--ink2);margin-bottom:10px;}
+
+/* CHECKLIST RIGHT STRIP */
+.card-checks{display:flex;flex-direction:column;gap:4px;}
+.check-item{display:flex;align-items:center;gap:5px;}
+.check-dot{
+  width:16px;height:16px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:0.6rem;
+  transition:all 0.3s;
+}
+.check-dot.done{background:var(--green);color:#fff;box-shadow:0 2px 6px rgba(22,163,74,0.3);}
+.check-dot.pending{background:#f1f5f5;color:#cbd5d5;border:1.5px solid #e2eaea;}
+.check-text{font-size:0.62rem;color:var(--slate);}
+
+/* PROGRESS */
+.prog-wrap{margin-top:8px;}
+.prog-bar{height:3px;background:#e8f0f0;border-radius:2px;overflow:hidden;}
+.prog-fill{height:100%;border-radius:2px;background:linear-gradient(90deg,var(--teal),var(--green));transition:width 0.6s cubic-bezier(0.22,1,0.36,1);}
+.prog-label{font-size:0.58rem;color:var(--mist);margin-top:3px;}
+
+/* DRAFT BADGE */
+.draft-badge{
+  position:absolute;top:10px;right:10px;
+  background:var(--gold-light);color:var(--gold);
+  font-size:0.58rem;font-weight:600;padding:2px 8px;border-radius:10px;
+  border:1px solid var(--gold);letter-spacing:0.04em;text-transform:uppercase;
+}
+
+/* ── DETAIL VIEW ── */
+.detail-hero{
+  background:linear-gradient(135deg,var(--teal-deep) 0%,var(--teal) 70%,var(--teal-mid) 100%);
+  border-radius:var(--r);padding:22px;margin-bottom:16px;
+  position:relative;overflow:hidden;box-shadow:var(--shadow-lg);
+}
+.detail-hero::before{
+  content:'';position:absolute;right:-40px;top:-40px;
+  width:180px;height:180px;border-radius:50%;background:rgba(255,255,255,0.06);
+}
+.detail-avatar{
+  width:64px;height:64px;border-radius:50%;
+  background:rgba(255,255,255,0.2);border:2px solid rgba(255,255,255,0.35);
+  display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:#fff;
+  margin-bottom:12px;box-shadow:0 6px 20px rgba(0,0,0,0.2);
+}
+.detail-name{font-family:'Cormorant Garamond',serif;font-size:1.6rem;font-weight:600;color:#fff;}
+.detail-college{font-size:0.78rem;color:rgba(255,255,255,0.75);margin-top:2px;}
+.detail-tags{display:flex;flex-wrap:wrap;gap:6px;margin-top:10px;}
+.detail-tag{background:rgba(255,255,255,0.15);color:#fff;font-size:0.65rem;padding:3px 10px;border-radius:12px;border:1px solid rgba(255,255,255,0.2);}
+.detail-prog-wrap{margin-top:14px;}
+.detail-prog-bar{height:5px;background:rgba(255,255,255,0.2);border-radius:3px;overflow:hidden;}
+.detail-prog-fill{height:100%;background:#fff;border-radius:3px;transition:width 0.6s;}
+.detail-prog-label{font-size:0.68rem;color:rgba(255,255,255,0.7);margin-top:5px;}
+
+/* MILESTONE LIST */
+.milestone-card{
+  background:var(--white);border-radius:var(--r);
+  border:1px solid var(--border);overflow:hidden;
+  margin-bottom:14px;box-shadow:var(--shadow-sm);
+}
+.milestone-row{
+  display:flex;align-items:center;padding:14px 16px;
+  border-bottom:1px solid #f0f7f7;transition:background 0.15s;
+}
+.milestone-row:last-child{border-bottom:none;}
+.milestone-row:hover{background:#f8fdfd;}
+.milestone-icon{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;font-size:1rem;
+  margin-right:12px;transition:all 0.3s;
+}
+.milestone-icon.done{background:var(--green-soft);box-shadow:0 2px 8px rgba(22,163,74,0.2);}
+.milestone-icon.pending{background:#f4f4f4;}
+.milestone-text{flex:1;}
+.milestone-label{font-size:0.875rem;font-weight:500;color:var(--ink);}
+.milestone-sub{font-size:0.68rem;color:var(--mist);margin-top:1px;}
+.toggle-btn{
+  padding:6px 14px;border-radius:20px;font-size:0.68rem;font-weight:600;
+  cursor:pointer;border:none;transition:all 0.2s;flex-shrink:0;
+}
+.toggle-btn.mark{background:var(--green-soft);color:var(--green);}
+.toggle-btn.mark:hover{background:var(--green);color:#fff;}
+.toggle-btn.unmark{background:var(--red-soft);color:var(--red);}
+
+/* INFO CARD */
+.info-card{
+  background:var(--white);border-radius:var(--r);
+  border:1px solid var(--border);padding:16px;
+  margin-bottom:14px;box-shadow:var(--shadow-sm);
+}
+.info-label{font-size:0.62rem;color:var(--mist);text-transform:uppercase;letter-spacing:0.07em;margin-bottom:4px;}
+.info-val{font-size:0.9rem;color:var(--ink);font-weight:500;}
+.info-grid{display:grid;grid-template-columns:1fr 1fr;gap:14px;}
+
+/* ASSIGN PANEL */
+.assign-card{
+  background:linear-gradient(135deg,#fffbeb,#fef3c7);
+  border:1.5px solid #fcd34d;border-radius:var(--r);
+  padding:16px;margin-bottom:14px;box-shadow:0 4px 16px rgba(245,158,11,0.15);
+}
+.assign-title{font-family:'Cormorant Garamond',serif;font-size:1.1rem;color:#92400e;margin-bottom:12px;display:flex;align-items:center;gap:6px;}
+
+/* ── FORMS ── */
+.form-section-title{
+  font-family:'Cormorant Garamond',serif;font-size:1.1rem;font-weight:600;
+  color:var(--teal-deep);margin:20px 0 12px;
+  padding-bottom:8px;border-bottom:1px solid var(--teal-pale);
+  display:flex;align-items:center;gap:8px;
+}
+.form-section-title::before{content:'';width:3px;height:18px;background:var(--teal);border-radius:2px;display:block;}
 .form-group{margin-bottom:14px;}
-.form-label{font-size:0.75rem;font-weight:600;color:var(--ink2);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.04em;}
-.form-input,.form-select,.form-textarea{width:100%;padding:11px 14px;border:1.5px solid var(--border);border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-size:0.875rem;color:var(--ink);background:var(--white);transition:border-color 0.2s,box-shadow 0.2s;outline:none;}
-.form-input:focus,.form-select:focus,.form-textarea:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(7,152,151,0.12);}
+.form-label{font-size:0.68rem;font-weight:600;color:var(--slate);margin-bottom:6px;display:block;text-transform:uppercase;letter-spacing:0.05em;}
+.form-input,.form-select,.form-textarea{
+  width:100%;padding:12px 14px;
+  border:1.5px solid var(--border);border-radius:var(--r-sm);
+  font-family:'Outfit',sans-serif;font-size:0.875rem;color:var(--ink);
+  background:var(--white);transition:border-color 0.2s,box-shadow 0.2s;outline:none;
+  box-shadow:var(--shadow-sm);
+}
+.form-input:focus,.form-select:focus,.form-textarea:focus{
+  border-color:var(--teal);box-shadow:0 0 0 3px var(--teal-glow);
+}
 .form-textarea{min-height:90px;resize:vertical;}
 .form-row{display:grid;grid-template-columns:1fr 1fr;gap:12px;}
-.form-section{font-family:'DM Serif Display',serif;font-size:1rem;color:var(--teal);margin:18px 0 12px;padding-bottom:6px;border-bottom:1px solid var(--teal-light);}
 
 /* BUTTONS */
-.btn{display:inline-flex;align-items:center;justify-content:center;gap:8px;padding:12px 22px;border-radius:var(--radius-sm);font-family:'DM Sans',sans-serif;font-weight:600;font-size:0.875rem;cursor:pointer;border:none;transition:all 0.2s;width:100%;}
-.btn-primary{background:var(--teal);color:#fff;}
-.btn-primary:hover{background:var(--teal-dark);box-shadow:var(--shadow);}
-.btn-secondary{background:var(--teal-light);color:var(--teal-dark);}
-.btn-ghost{background:transparent;color:var(--muted);border:1.5px solid var(--border);}
-.btn-danger{background:var(--red-light);color:var(--red);}
-.btn-sm{padding:8px 14px;font-size:0.78rem;width:auto;}
+.btn{
+  display:inline-flex;align-items:center;justify-content:center;gap:8px;
+  padding:13px 22px;border-radius:var(--r-sm);
+  font-family:'Outfit',sans-serif;font-weight:600;font-size:0.875rem;
+  cursor:pointer;border:none;transition:all 0.2s;width:100%;letter-spacing:0.02em;
+}
+.btn-primary{
+  background:linear-gradient(135deg,var(--teal-deep),var(--teal));
+  color:#fff;box-shadow:0 4px 16px var(--teal-glow);
+}
+.btn-primary:hover{transform:translateY(-1px);box-shadow:0 6px 20px var(--teal-glow);}
+.btn-secondary{background:var(--teal-pale);color:var(--teal-deep);border:1.5px solid var(--border);}
+.btn-gold{background:linear-gradient(135deg,#b45309,var(--gold));color:#fff;box-shadow:0 4px 16px rgba(201,168,76,0.3);}
+.btn-ghost{background:transparent;color:var(--mist);border:1.5px solid var(--border);}
+.btn-danger{background:var(--red-soft);color:var(--red);}
+.btn-sm{padding:8px 16px;font-size:0.75rem;width:auto;}
+.btn-row{display:flex;gap:10px;}
 
-/* SEARCH */
-.search-bar{position:relative;margin-bottom:16px;}
-.search-bar input{width:100%;padding:11px 14px 11px 40px;border:1.5px solid var(--border);border-radius:30px;font-family:'DM Sans',sans-serif;font-size:0.875rem;background:var(--white);outline:none;color:var(--ink);}
-.search-bar input:focus{border-color:var(--teal);box-shadow:0 0 0 3px rgba(7,152,151,0.1);}
-.search-icon{position:absolute;left:14px;top:50%;transform:translateY(-50%);color:var(--muted);font-size:1rem;}
+/* MENTOR SCREEN */
+.mentor-card{
+  background:var(--white);border-radius:var(--r);
+  border:1px solid var(--border);padding:16px;
+  margin-bottom:12px;display:flex;align-items:center;gap:14px;
+  box-shadow:var(--shadow-sm);transition:transform 0.2s;
+}
+.mentor-card:hover{transform:translateY(-1px);}
+.mentor-avatar{
+  width:52px;height:52px;border-radius:50%;flex-shrink:0;
+  background:linear-gradient(135deg,var(--teal-deep),var(--teal));
+  color:#fff;display:flex;align-items:center;justify-content:center;
+  font-family:'Cormorant Garamond',serif;font-size:1.25rem;font-weight:600;
+  box-shadow:0 4px 12px var(--teal-glow);
+}
+.mentor-name{font-weight:600;font-size:0.95rem;color:var(--ink);}
+.mentor-sub{font-size:0.72rem;color:var(--mist);margin-top:1px;}
+.mentor-count{font-size:0.65rem;color:var(--teal);margin-top:3px;font-weight:500;}
 
-/* SECTION HEADER */
-.section-header{display:flex;align-items:center;justify-content:space-between;margin-bottom:14px;}
-.section-title{font-family:'DM Serif Display',serif;font-size:1.15rem;}
-
-/* EMPTY STATE */
-.empty{text-align:center;padding:48px 20px;color:var(--muted);}
-.empty-icon{font-size:3rem;margin-bottom:12px;opacity:0.5;}
-.empty-text{font-size:0.875rem;}
+/* MODAL */
+.modal-overlay{position:fixed;inset:0;background:rgba(10,31,31,0.55);z-index:200;display:none;align-items:flex-end;backdrop-filter:blur(4px);}
+.modal-overlay.show{display:flex;}
+.modal{background:var(--white);border-radius:24px 24px 0 0;width:100%;max-height:88vh;overflow-y:auto;padding:20px 20px 44px;box-shadow:0 -8px 48px rgba(7,152,151,0.2);}
+.modal-handle{width:36px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 18px;}
+.modal-title{font-family:'Cormorant Garamond',serif;font-size:1.3rem;font-weight:600;margin-bottom:16px;}
 
 /* TOAST */
-.toast{position:fixed;bottom:90px;left:50%;transform:translateX(-50%) translateY(20px);background:var(--ink);color:#fff;padding:10px 20px;border-radius:30px;font-size:0.8rem;z-index:999;opacity:0;transition:all 0.3s;pointer-events:none;white-space:nowrap;}
+.toast{
+  position:fixed;bottom:96px;left:50%;transform:translateX(-50%) translateY(16px);
+  background:var(--ink2);color:#fff;padding:11px 22px;border-radius:30px;
+  font-size:0.78rem;z-index:999;opacity:0;transition:all 0.3s;
+  pointer-events:none;white-space:nowrap;box-shadow:var(--shadow);
+  letter-spacing:0.02em;
+}
 .toast.show{opacity:1;transform:translateX(-50%) translateY(0);}
 .toast.success{background:var(--teal);}
 .toast.error{background:var(--red);}
+.toast.warn{background:var(--amber);}
 
-/* MODAL */
-.modal-overlay{position:fixed;inset:0;background:rgba(15,43,43,0.5);z-index:200;display:none;align-items:flex-end;}
-.modal-overlay.show{display:flex;}
-.modal{background:var(--white);border-radius:24px 24px 0 0;width:100%;max-height:90vh;overflow-y:auto;padding:20px 20px 40px;}
-.modal-handle{width:40px;height:4px;background:var(--border);border-radius:2px;margin:0 auto 16px;}
-.modal-title{font-family:'DM Serif Display',serif;font-size:1.2rem;margin-bottom:16px;}
+/* EMPTY */
+.empty{text-align:center;padding:52px 20px;color:var(--mist);}
+.empty-art{font-size:3.5rem;margin-bottom:14px;opacity:0.4;}
+.empty-msg{font-size:0.875rem;line-height:1.6;}
 
-/* CHIP FILTER */
-.chip-row{display:flex;gap:8px;overflow-x:auto;padding-bottom:4px;margin-bottom:14px;scrollbar-width:none;}
-.chip-row::-webkit-scrollbar{display:none;}
-.chip{padding:6px 14px;border-radius:20px;font-size:0.72rem;font-weight:600;cursor:pointer;border:1.5px solid var(--border);background:var(--white);color:var(--muted);white-space:nowrap;transition:all 0.2s;}
-.chip.active{background:var(--teal);color:#fff;border-color:var(--teal);}
+/* DECORATIVE DIVIDER */
+.divider{display:flex;align-items:center;gap:10px;margin:6px 0 14px;}
+.divider-line{flex:1;height:1px;background:var(--border);}
+.divider-dot{width:5px;height:5px;border-radius:50%;background:var(--teal);opacity:0.4;}
 
-/* DETAIL VIEW */
-.detail-header{background:linear-gradient(135deg,var(--teal),var(--teal-dark));color:#fff;border-radius:var(--radius);padding:20px;margin-bottom:14px;}
-.detail-name{font-family:'DM Serif Display',serif;font-size:1.4rem;margin-bottom:4px;}
-.detail-sub{font-size:0.8rem;opacity:0.85;}
-.detail-checklist{background:var(--card);border-radius:var(--radius);border:1px solid var(--border);overflow:hidden;margin-bottom:14px;}
-.check-row{display:flex;align-items:center;justify-content:space-between;padding:14px 16px;border-bottom:1px solid var(--border);}
-.check-row:last-child{border-bottom:none;}
-.check-row-left{display:flex;align-items:center;gap:10px;}
-.check-row-label{font-size:0.85rem;font-weight:500;}
-.check-row-sub{font-size:0.7rem;color:var(--muted);margin-top:1px;}
-.big-check{width:28px;height:28px;border-radius:50%;display:flex;align-items:center;justify-content:center;font-size:1rem;flex-shrink:0;}
-.big-check.done{background:var(--green);color:#fff;}
-.big-check.pending{background:#f3f4f6;color:#d1d5db;border:2px solid #e5e7eb;}
-.toggle-btn{padding:5px 12px;border-radius:20px;font-size:0.7rem;font-weight:600;cursor:pointer;border:none;}
-.toggle-btn.mark{background:var(--green-light);color:#16a34a;}
-.toggle-btn.unmark{background:var(--red-light);color:var(--red);}
-
-/* MENTOR CARD */
-.mentor-avatar{width:48px;height:48px;border-radius:50%;background:var(--teal);color:#fff;display:flex;align-items:center;justify-content:center;font-family:'DM Serif Display',serif;font-size:1.2rem;flex-shrink:0;}
-
-/* LOADING */
-.loading{display:flex;align-items:center;justify-content:center;padding:40px;color:var(--muted);}
-.spinner{width:24px;height:24px;border:2.5px solid var(--border);border-top-color:var(--teal);border-radius:50%;animation:spin 0.7s linear infinite;margin-right:10px;}
-@keyframes spin{to{transform:rotate(360deg);}}
-
-/* FAB */
-.fab{position:fixed;bottom:80px;right:20px;width:52px;height:52px;border-radius:50%;background:var(--teal);color:#fff;border:none;cursor:pointer;font-size:1.5rem;box-shadow:var(--shadow-lg);display:flex;align-items:center;justify-content:center;transition:all 0.2s;z-index:90;}
-.fab:hover{background:var(--teal-dark);transform:scale(1.08);}
-.fab:active{transform:scale(0.95);}
-
-@media(min-width:600px){
-  .stat-strip{grid-template-columns:repeat(3,1fr);}
-  .intern-card-right{width:160px;}
+/* BACK BTN */
+.back-btn{
+  display:inline-flex;align-items:center;gap:6px;
+  color:var(--teal);font-size:0.8rem;font-weight:500;
+  background:none;border:none;cursor:pointer;margin-bottom:14px;
+  padding:6px 12px 6px 8px;border-radius:20px;
+  transition:background 0.2s;
 }
+.back-btn:hover{background:var(--teal-pale);}
 </style>
 </head>
 <body>
-<div id="app">
 
-<!-- TOP BAR -->
+<!-- TOPBAR -->
 <div class="topbar">
-  <div>
-    <div class="topbar-title">InternLink</div>
-    <div class="topbar-sub">Yenepoya Specialty Hospital</div>
+  <div class="topbar-brand">
+    <div class="brand-mark">IP</div>
+    <div>
+      <div class="brand-name">InternPulse</div>
+      <div class="brand-sub">Yenepoya Specialty Hospital</div>
+    </div>
   </div>
-  <div class="topbar-actions">
+  <div class="topbar-right">
     <button class="icon-btn" onclick="refreshAll()" title="Refresh">↻</button>
   </div>
 </div>
 
-<!-- SCREENS -->
+<!-- SCREEN: HOME -->
 <div id="screen-home" class="screen active">
-  <div class="stat-strip" id="stat-strip">
-    <div class="stat-card"><div class="stat-num" id="s-interns">—</div><div class="stat-label">Interns</div></div>
-    <div class="stat-card"><div class="stat-num" id="s-mentors">—</div><div class="stat-label">Mentors</div></div>
-    <div class="stat-card"><div class="stat-num" id="s-complete">—</div><div class="stat-label">Complete</div></div>
+
+  <div class="hero-bar">
+    <div class="hero-greeting">Good day, Coordinator</div>
+    <div class="hero-title">Intern Dashboard</div>
+    <div class="hero-stats">
+      <div class="hero-stat"><div class="hero-stat-num" id="s-total">—</div><div class="hero-stat-label">Total</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" id="s-active">—</div><div class="hero-stat-label">Active</div></div>
+      <div class="hero-stat"><div class="hero-stat-num" id="s-done">—</div><div class="hero-stat-label">Complete</div></div>
+    </div>
   </div>
+
+  <div id="pending-banner-wrap"></div>
+
   <div class="section-header">
-    <div class="section-title">Active Interns</div>
+    <div class="section-title">All Interns</div>
   </div>
-  <div class="search-bar">
-    <span class="search-icon">🔍</span>
-    <input type="text" placeholder="Search by name, mentor, location…" id="home-search" oninput="filterHomeList()"/>
+  <div class="search-wrap">
+    <span class="search-ico">🔍</span>
+    <input type="text" placeholder="Search name, mentor, college…" id="home-search" oninput="filterHome()"/>
   </div>
   <div class="chip-row" id="location-chips"></div>
-  <div id="intern-list-home"></div>
+  <div id="intern-list"></div>
 </div>
 
+<!-- SCREEN: ADD -->
 <div id="screen-add" class="screen">
-  <div class="section-title" style="margin-bottom:18px;">New Intern</div>
+  <div class="section-title" style="margin-bottom:4px;">Register Intern</div>
+  <div style="font-size:0.75rem;color:var(--mist);margin-bottom:18px;">Fill academic details · Posting assigned by coordinator</div>
 
-  <div class="form-section">Academic Details</div>
+  <div class="form-section-title">Academic Details</div>
   <div class="form-group"><label class="form-label">Full Name *</label><input class="form-input" id="f-name" placeholder="Dr. / Mr. / Ms. Full Name"/></div>
   <div class="form-group"><label class="form-label">College / Institution *</label><input class="form-input" id="f-college" placeholder="Institution name"/></div>
   <div class="form-row">
-    <div class="form-group"><label class="form-label">Department</label><input class="form-input" id="f-dept" placeholder="e.g. ENT, Medicine"/></div>
+    <div class="form-group"><label class="form-label">Department</label><input class="form-input" id="f-dept" placeholder="e.g. ENT"/></div>
     <div class="form-group"><label class="form-label">Academic Year</label><input class="form-input" id="f-year" placeholder="e.g. 3rd Year MBBS"/></div>
   </div>
-
-  <div class="form-section">Posting Details</div>
-  <div class="form-group"><label class="form-label">Posting Location *</label>
-    <select class="form-select" id="f-location">
-      <option value="">— Select —</option>
-      <option>ENT OPD</option><option>ENT OT</option><option>ICU</option><option>Emergency</option>
-      <option>Radiology</option><option>Pharmacy</option><option>Lab</option><option>Paediatrics</option>
-      <option>Orthopaedics</option><option>Ophthalmology</option><option>General Medicine</option>
-      <option>General Surgery</option><option>Administration</option><option>Other</option>
-    </select>
+  <div class="form-row">
+    <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="f-phone" type="tel" placeholder="10-digit"/></div>
+    <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="f-email" type="email" placeholder="intern@email.com"/></div>
   </div>
+
+  <div class="form-section-title">Posting Details</div>
+  <div class="form-group"><label class="form-label">Posting Location</label><input class="form-input" id="f-location" placeholder="e.g. ENT OPD, ICU"/></div>
   <div class="form-row">
     <div class="form-group"><label class="form-label">Start Date</label><input class="form-input" type="date" id="f-start"/></div>
     <div class="form-group"><label class="form-label">End Date</label><input class="form-input" type="date" id="f-end"/></div>
   </div>
 
-  <div class="form-section">Mentor Details</div>
+  <div class="form-section-title">Mentor Assignment</div>
   <div class="form-row">
-    <div class="form-group"><label class="form-label">Mentor Name *</label><input class="form-input" id="f-mentor" placeholder="Full name"/></div>
+    <div class="form-group"><label class="form-label">Mentor Name</label><input class="form-input" id="f-mentor" placeholder="Assigned mentor"/></div>
     <div class="form-group"><label class="form-label">Designation</label><input class="form-input" id="f-mdesig" placeholder="e.g. Consultant"/></div>
   </div>
 
-  <div class="form-section">Objective</div>
-  <div class="form-group">
-    <textarea class="form-textarea" id="f-objective" placeholder="What will the intern learn? What value do they bring? Expected outcomes…"></textarea>
-  </div>
+  <div class="form-section-title">Objective</div>
+  <div class="form-group"><textarea class="form-textarea" id="f-objective" placeholder="Learning goals, expected outcomes, contribution…"></textarea></div>
 
-  <button class="btn btn-primary" onclick="submitIntern()">✦ Register Intern</button>
-  <div style="height:12px;"></div>
+  <button class="btn btn-primary" id="submit-btn" onclick="submitIntern()">✦ Register Intern</button>
+  <div style="height:10px;"></div>
 </div>
 
+<!-- SCREEN: MENTORS -->
 <div id="screen-mentors" class="screen">
   <div class="section-header">
     <div class="section-title">Mentor Profiles</div>
-    <button class="btn btn-secondary btn-sm" onclick="openAddMentorModal()">+ Add</button>
+    <button class="btn btn-secondary btn-sm" onclick="openMentorModal()">+ Add</button>
   </div>
   <div id="mentor-list"></div>
 </div>
 
+<!-- SCREEN: DETAIL -->
 <div id="screen-detail" class="screen">
   <div id="detail-content"></div>
 </div>
 
 <!-- BOTTOM NAV -->
 <nav class="bottom-nav">
-  <button class="nav-item active" onclick="showScreen('home')" id="nav-home">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
-    Dashboard<div class="nav-dot"></div>
+  <button class="nav-item active" id="nav-home" onclick="showScreen('home')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/><polyline points="9 22 9 12 15 12 15 22"/></svg>
+    Home<div class="nav-pip"></div>
   </button>
-  <button class="nav-item" onclick="showScreen('add')" id="nav-add">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
-    Add Intern<div class="nav-dot"></div>
+  <button class="nav-item" id="nav-add" onclick="showScreen('add')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><circle cx="12" cy="12" r="10"/><line x1="12" y1="8" x2="12" y2="16"/><line x1="8" y1="12" x2="16" y2="12"/></svg>
+    Add<div class="nav-pip"></div>
   </button>
-  <button class="nav-item" onclick="showScreen('mentors')" id="nav-mentors">
-    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
-    Mentors<div class="nav-dot"></div>
+  <button class="nav-item" id="nav-mentors" onclick="showScreen('mentors')">
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor"><path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/><circle cx="9" cy="7" r="4"/><path d="M23 21v-2a4 4 0 00-3-3.87M16 3.13a4 4 0 010 7.75"/></svg>
+    Mentors<div class="nav-pip"></div>
   </button>
 </nav>
-</div>
 
-<!-- ADD MENTOR MODAL -->
+<!-- MENTOR MODAL -->
 <div class="modal-overlay" id="mentor-modal">
   <div class="modal">
     <div class="modal-handle"></div>
@@ -290,56 +553,64 @@ h1,h2,h3,.serif{font-family:'DM Serif Display',serif;}
     <div class="form-group"><label class="form-label">Designation</label><input class="form-input" id="m-desig" placeholder="e.g. Senior Consultant"/></div>
     <div class="form-group"><label class="form-label">Department</label><input class="form-input" id="m-dept" placeholder="e.g. ENT"/></div>
     <div class="form-row">
-      <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="m-email" type="email" placeholder="email@yenepoya.org"/></div>
-      <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="m-phone" type="tel" placeholder="10-digit"/></div>
+      <div class="form-group"><label class="form-label">Email</label><input class="form-input" id="m-email" type="email"/></div>
+      <div class="form-group"><label class="form-label">Phone</label><input class="form-input" id="m-phone" type="tel"/></div>
     </div>
-    <div style="display:flex;gap:10px;">
+    <div class="btn-row">
       <button class="btn btn-ghost" onclick="closeMentorModal()">Cancel</button>
       <button class="btn btn-primary" onclick="submitMentor()">Save Mentor</button>
     </div>
   </div>
 </div>
 
-<!-- TOAST -->
+<!-- ASSIGN MODAL -->
+<div class="modal-overlay" id="assign-modal">
+  <div class="modal">
+    <div class="modal-handle"></div>
+    <div class="modal-title">⚡ Complete Assignment</div>
+    <div style="font-size:0.78rem;color:var(--mist);margin-bottom:16px;" id="assign-intern-name"></div>
+    <div class="form-group"><label class="form-label">Posting Location *</label><input class="form-input" id="a-location" placeholder="e.g. ENT OPD, ICU"/></div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Start Date</label><input class="form-input" type="date" id="a-start"/></div>
+      <div class="form-group"><label class="form-label">End Date</label><input class="form-input" type="date" id="a-end"/></div>
+    </div>
+    <div class="form-row">
+      <div class="form-group"><label class="form-label">Mentor Name *</label><input class="form-input" id="a-mentor" placeholder="Assigned mentor"/></div>
+      <div class="form-group"><label class="form-label">Designation</label><input class="form-input" id="a-mdesig" placeholder="e.g. Consultant"/></div>
+    </div>
+    <div class="form-group"><label class="form-label">Objective</label><textarea class="form-textarea" id="a-objective" style="min-height:70px;" placeholder="Learning goals…"></textarea></div>
+    <div class="btn-row">
+      <button class="btn btn-ghost" onclick="closeAssignModal()">Cancel</button>
+      <button class="btn btn-gold" onclick="submitAssign()">✦ Activate Intern</button>
+    </div>
+  </div>
+</div>
+
 <div class="toast" id="toast"></div>
 
 <script>
-// ── SUPABASE ──────────────────────────────────────────────
 const SUPA_URL = 'https://qkyunliqrsgtrhuoynnn.supabase.co';
 const SUPA_KEY = 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6InFreXVubGlxcnNndHJodW95bm5uIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NzM5MTExNjUsImV4cCI6MjA4OTQ4NzE2NX0.w3XphRDVgud5xwH6xgKNiSdT3jx2YnnMYnKafQ-J244';
 const db = supabase.createClient(SUPA_URL, SUPA_KEY);
 
-// ── STATE ─────────────────────────────────────────────────
-let allInterns = [];
-let allMentors = [];
-let checklist = {}; // { intern_id: { profile, mentor, attendance, report, certificate } }
-let activeChip = 'All';
+let allInterns = [], allMentors = [], checklist = {}, activeChip = 'All', assigningId = null;
 
-// ── INIT ──────────────────────────────────────────────────
-window.onload = async () => {
-  await refreshAll();
-};
+window.onload = () => refreshAll();
 
 async function refreshAll() {
   await Promise.all([loadInterns(), loadMentors(), loadChecklist()]);
-  updateStats();
-  renderHomeList();
-  renderMentors();
+  updateStats(); renderPendingBanner(); renderHomeList(); renderMentors();
 }
 
-// ── DATA ──────────────────────────────────────────────────
 async function loadInterns() {
-  const { data, error } = await db.from('interns').select('*').order('created_at', { ascending: false });
-  if (!error) allInterns = data || [];
+  const { data } = await db.from('interns').select('*').order('created_at', { ascending: false });
+  allInterns = data || [];
 }
-
 async function loadMentors() {
-  const { data, error } = await db.from('mentors').select('*').order('name');
-  if (!error) allMentors = data || [];
+  const { data } = await db.from('mentors').select('*').order('name');
+  allMentors = data || [];
 }
-
 async function loadChecklist() {
-  // Load attendance, reports, certificates for all interns
   const [att, rep, cert] = await Promise.all([
     db.from('attendance').select('intern_id'),
     db.from('reports').select('intern_id'),
@@ -348,340 +619,382 @@ async function loadChecklist() {
   checklist = {};
   allInterns.forEach(i => {
     const id = i.id;
-    const hasProfile = !!(i.full_name && i.college && i.posting_location);
-    const hasMentor = !!(i.mentor_name);
-    const hasAttendance = (att.data || []).some(a => a.intern_id === id);
-    const hasReport = (rep.data || []).some(r => r.intern_id === id);
-    const hasCert = (cert.data || []).some(c => c.intern_id === id);
-    checklist[id] = { profile: hasProfile, mentor: hasMentor, attendance: hasAttendance, report: hasReport, certificate: hasCert };
+    checklist[id] = {
+      profile: !!(i.full_name && i.college),
+      mentor:  !!(i.mentor_name && i.posting_location),
+      attendance:  (att.data||[]).some(a => a.intern_id === id),
+      report:      (rep.data||[]).some(r => r.intern_id === id),
+      certificate: (cert.data||[]).some(c => c.intern_id === id)
+    };
   });
 }
 
-function internProgress(id) {
-  const c = checklist[id] || {};
-  return Object.values(c).filter(Boolean).length;
-}
+function isDraft(i) { return !i.posting_location || !i.mentor_name; }
+function progress(id) { return Object.values(checklist[id]||{}).filter(Boolean).length; }
+function initials(name) { return (name||'?').split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase(); }
 
-// ── STATS ─────────────────────────────────────────────────
 function updateStats() {
-  document.getElementById('s-interns').textContent = allInterns.length;
-  document.getElementById('s-mentors').textContent = allMentors.length;
-  const complete = allInterns.filter(i => internProgress(i.id) === 5).length;
-  document.getElementById('s-complete').textContent = complete;
+  const drafts = allInterns.filter(isDraft);
+  document.getElementById('s-total').textContent  = allInterns.length;
+  document.getElementById('s-active').textContent = allInterns.length - drafts.length;
+  document.getElementById('s-done').textContent   = allInterns.filter(i => progress(i.id) === 5).length;
 }
 
-// ── HOME LIST ─────────────────────────────────────────────
-function renderHomeList() {
-  // Location chips
-  const locations = ['All', ...new Set(allInterns.map(i => i.posting_location).filter(Boolean))];
-  const chipRow = document.getElementById('location-chips');
-  chipRow.innerHTML = locations.map(l =>
-    `<div class="chip ${l === activeChip ? 'active' : ''}" onclick="setChip('${l}')">${l}</div>`
-  ).join('');
-  filterHomeList();
-}
-
-function setChip(loc) {
-  activeChip = loc;
-  renderHomeList();
-}
-
-function filterHomeList() {
-  const q = (document.getElementById('home-search').value || '').toLowerCase();
-  let list = allInterns;
-  if (activeChip !== 'All') list = list.filter(i => i.posting_location === activeChip);
-  if (q) list = list.filter(i =>
-    (i.full_name||'').toLowerCase().includes(q) ||
-    (i.mentor_name||'').toLowerCase().includes(q) ||
-    (i.posting_location||'').toLowerCase().includes(q) ||
-    (i.college||'').toLowerCase().includes(q)
-  );
-
-  const container = document.getElementById('intern-list-home');
-  if (!list.length) {
-    container.innerHTML = `<div class="empty"><div class="empty-icon">🎓</div><div class="empty-text">No interns found</div></div>`;
-    return;
-  }
-  container.innerHTML = list.map(i => internCardHTML(i)).join('');
-}
-
-function internCardHTML(i) {
-  const c = checklist[i.id] || {};
-  const prog = internProgress(i.id);
-  const pct = Math.round((prog / 5) * 100);
-  const checks = [
-    { key: 'profile', label: 'Intern Profile' },
-    { key: 'mentor', label: 'Mentor Profile' },
-    { key: 'attendance', label: 'Attendance' },
-    { key: 'report', label: 'Report' },
-    { key: 'certificate', label: 'Certificate' },
-  ];
-  const checkHTML = checks.map(ch =>
-    `<div class="check-item">
-      <div class="check-icon ${c[ch.key] ? 'done' : 'pending'}">${c[ch.key] ? '✓' : '○'}</div>
-      <span class="check-label">${ch.label}</span>
-    </div>`
-  ).join('');
-
-  return `<div class="intern-card" onclick="openDetail('${i.id}')">
-    <div class="intern-card-left">
-      <div class="intern-name">${i.full_name}</div>
-      <div class="intern-meta">${i.college||'—'} · ${i.academic_year||''}</div>
-      <span class="intern-badge">${i.posting_location||'No posting'}</span>
-      <div class="intern-mentor">${i.mentor_name ? '👤 '+i.mentor_name : 'No mentor assigned'}</div>
-      <div class="progress-bar"><div class="progress-fill" style="width:${pct}%"></div></div>
-      <div style="font-size:0.65rem;color:var(--muted);margin-top:4px;">${prog}/5 complete</div>
+function renderPendingBanner() {
+  const pending = allInterns.filter(isDraft);
+  const el = document.getElementById('pending-banner-wrap');
+  if (!pending.length) { el.innerHTML = ''; return; }
+  el.innerHTML = `<div class="pending-banner" onclick="scrollToPending()">
+    <div class="pending-icon">⏳</div>
+    <div class="pending-text">
+      <div class="pending-title">${pending.length} Intern${pending.length>1?'s':''} Awaiting Assignment</div>
+      <div class="pending-sub">Posting & mentor not yet assigned · Tap to review</div>
     </div>
-    <div class="intern-card-right">${checkHTML}</div>
+    <div class="pending-arrow">›</div>
   </div>`;
 }
 
-// ── DETAIL VIEW ───────────────────────────────────────────
-async function openDetail(id) {
-  const intern = allInterns.find(i => i.id === id);
-  if (!intern) return;
-  showScreen('detail');
+function scrollToPending() {
+  activeChip = 'Drafts'; renderHomeList();
+  document.getElementById('intern-list').scrollIntoView({ behavior: 'smooth' });
+}
 
-  const c = checklist[id] || {};
-  const prog = internProgress(id);
-  const pct = Math.round((prog / 5) * 100);
+function renderHomeList() {
+  const locations = ['All', 'Drafts', ...new Set(allInterns.filter(i=>!isDraft(i)).map(i=>i.posting_location).filter(Boolean))];
+  document.getElementById('location-chips').innerHTML = locations.map(l =>
+    `<div class="chip ${l===activeChip?'active':''}" onclick="setChip('${l}')">${l}</div>`
+  ).join('');
+  filterHome();
+}
 
+function setChip(l) { activeChip = l; renderHomeList(); }
+
+function filterHome() {
+  const q = (document.getElementById('home-search').value||'').toLowerCase();
+  let list = allInterns;
+  if (activeChip === 'Drafts') list = list.filter(isDraft);
+  else if (activeChip !== 'All') list = list.filter(i => i.posting_location === activeChip);
+  if (q) list = list.filter(i =>
+    (i.full_name||'').toLowerCase().includes(q) ||
+    (i.mentor_name||'').toLowerCase().includes(q) ||
+    (i.college||'').toLowerCase().includes(q)
+  );
+  const container = document.getElementById('intern-list');
+  if (!list.length) {
+    container.innerHTML = `<div class="empty"><div class="empty-art">🎓</div><div class="empty-msg">No interns found.<br>Add one or adjust filters.</div></div>`;
+    return;
+  }
+  container.innerHTML = list.map(internCardHTML).join('');
+}
+
+function internCardHTML(i) {
+  const c = checklist[i.id]||{};
+  const prog = progress(i.id);
+  const pct = Math.round((prog/5)*100);
+  const draft = isDraft(i);
   const checks = [
-    { key: 'profile', label: 'Intern Profile', sub: intern.college ? intern.college : 'Fill profile details', action: 'profile' },
-    { key: 'mentor', label: 'Mentor Profile', sub: intern.mentor_name || 'No mentor assigned', action: 'mentor' },
-    { key: 'attendance', label: 'Attendance Verification', sub: c.attendance ? 'Attendance recorded' : 'Mark attendance', action: 'attendance' },
-    { key: 'report', label: 'Report Submission', sub: c.report ? 'Report submitted' : 'No report yet', action: 'report' },
-    { key: 'certificate', label: 'Certificate Issued', sub: c.certificate ? 'Certificate issued ✓' : 'Pending', action: 'certificate' },
+    { key:'profile',     label:'Profile'     },
+    { key:'mentor',      label:'Mentor'      },
+    { key:'attendance',  label:'Attendance'  },
+    { key:'report',      label:'Report'      },
+    { key:'certificate', label:'Certificate' },
+  ];
+  return `<div class="intern-card" onclick="openDetail('${i.id}')">
+    ${draft ? '<div class="draft-badge">Draft</div>' : ''}
+    <div class="card-profile">
+      <div class="profile-avatar">${initials(i.full_name)}</div>
+      <div class="profile-initials-label">${i.academic_year||'Intern'}</div>
+      <div class="profile-college-badge">${(i.college||'').split(' ').slice(0,3).join(' ')}</div>
+    </div>
+    <div class="card-body">
+      <div class="card-name">${i.full_name}</div>
+      <div class="card-sub">${i.department||''}</div>
+      ${draft
+        ? `<div style="font-size:0.7rem;color:var(--amber);font-weight:500;margin-bottom:6px;">⚠ Awaiting posting assignment</div>`
+        : `<div class="card-posting">📍 ${i.posting_location}</div>`
+      }
+      <div class="card-mentor">${i.mentor_name ? '👤 '+i.mentor_name : '<span style="color:var(--mist)">No mentor yet</span>'}</div>
+      <div class="card-checks">
+        ${checks.map(ch=>`<div class="check-item">
+          <div class="check-dot ${c[ch.key]?'done':'pending'}">${c[ch.key]?'✓':'○'}</div>
+          <span class="check-text">${ch.label}</span>
+        </div>`).join('')}
+      </div>
+      <div class="prog-wrap">
+        <div class="prog-bar"><div class="prog-fill" style="width:${pct}%"></div></div>
+        <div class="prog-label">${prog}/5 milestones · ${pct}% complete</div>
+      </div>
+    </div>
+  </div>`;
+}
+
+async function openDetail(id) {
+  const i = allInterns.find(x => x.id === id);
+  if (!i) return;
+  showScreen('detail');
+  const c = checklist[id]||{};
+  const prog = progress(id);
+  const pct = Math.round((prog/5)*100);
+  const draft = isDraft(i);
+
+  const milestones = [
+    { key:'profile',     label:'Intern Profile',       sub: i.college||'Academic details', icon:'🎓', toggleable: false },
+    { key:'mentor',      label:'Mentor Profile',        sub: i.mentor_name||'Not assigned', icon:'👨‍⚕️', toggleable: false },
+    { key:'attendance',  label:'Attendance Verification', sub: c.attendance?'Attendance recorded':'Not yet marked', icon:'📋', toggleable: true },
+    { key:'report',      label:'Report Submission',    sub: c.report?'Report submitted':'Pending submission', icon:'📄', toggleable: true },
+    { key:'certificate', label:'Certificate Issued',   sub: c.certificate?'Certificate issued ✓':'Pending', icon:'🏅', toggleable: true },
   ];
 
-  const checkRows = checks.map(ch => `
-    <div class="check-row">
-      <div class="check-row-left">
-        <div class="big-check ${c[ch.key] ? 'done' : 'pending'}">${c[ch.key] ? '✓' : '○'}</div>
-        <div>
-          <div class="check-row-label">${ch.label}</div>
-          <div class="check-row-sub">${ch.sub}</div>
-        </div>
-      </div>
-      ${ch.action !== 'profile' && ch.action !== 'mentor' ? `
-        <button class="toggle-btn ${c[ch.key] ? 'unmark' : 'mark'}" onclick="event.stopPropagation();toggleCheck('${id}','${ch.action}',${c[ch.key]})">
-          ${c[ch.key] ? 'Unmark' : 'Mark ✓'}
-        </button>` : ''}
-    </div>`).join('');
-
   document.getElementById('detail-content').innerHTML = `
-    <button onclick="showScreen('home')" style="color:var(--teal);font-size:0.85rem;background:none;border:none;cursor:pointer;margin-bottom:12px;">← Back</button>
-    <div class="detail-header">
-      <div class="detail-name">${intern.full_name}</div>
-      <div class="detail-sub">${intern.college||''} · ${intern.academic_year||''}</div>
-      <div style="margin-top:8px;font-size:0.78rem;opacity:0.85;">${intern.department||''} | ${intern.posting_location||''}</div>
-      <div style="margin-top:4px;font-size:0.78rem;opacity:0.85;">📅 ${intern.posting_start||'?'} → ${intern.posting_end||'?'}</div>
-      <div style="height:6px;background:rgba(255,255,255,0.2);border-radius:3px;margin-top:12px;">
-        <div style="height:100%;border-radius:3px;background:#fff;width:${pct}%;transition:width 0.5s;"></div>
+    <button class="back-btn" onclick="showScreen('home')">← Back</button>
+
+    <div class="detail-hero">
+      <div class="detail-avatar">${initials(i.full_name)}</div>
+      <div class="detail-name">${i.full_name}</div>
+      <div class="detail-college">${i.college||''} ${i.academic_year ? '· '+i.academic_year : ''}</div>
+      <div class="detail-tags">
+        ${i.department ? `<span class="detail-tag">${i.department}</span>` : ''}
+        ${i.posting_location ? `<span class="detail-tag">📍 ${i.posting_location}</span>` : '<span class="detail-tag" style="background:rgba(245,158,11,0.25);">⚠ No Posting</span>'}
+        ${i.posting_start ? `<span class="detail-tag">📅 ${i.posting_start} → ${i.posting_end||'?'}</span>` : ''}
       </div>
-      <div style="font-size:0.7rem;margin-top:4px;opacity:0.8;">${prog}/5 milestones complete</div>
+      <div class="detail-prog-wrap">
+        <div class="detail-prog-bar"><div class="detail-prog-fill" style="width:${pct}%"></div></div>
+        <div class="detail-prog-label">${prog}/5 milestones complete · ${pct}%</div>
+      </div>
     </div>
 
-    <div class="detail-checklist">${checkRows}</div>
-
-    <div class="card card-sm" style="margin-bottom:12px;">
-      <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Mentor</div>
-      <div style="font-weight:600;">${intern.mentor_name||'—'}</div>
-      <div style="font-size:0.8rem;color:var(--muted);">${intern.mentor_designation||''}</div>
-    </div>
-
-    ${intern.objective ? `<div class="card card-sm" style="margin-bottom:12px;">
-      <div style="font-size:0.7rem;color:var(--muted);text-transform:uppercase;letter-spacing:0.05em;margin-bottom:6px;">Objective</div>
-      <div style="font-size:0.85rem;line-height:1.6;">${intern.objective}</div>
+    ${draft ? `<div class="assign-card">
+      <div class="assign-title">⚡ Complete Assignment</div>
+      <div style="font-size:0.78rem;color:#92400e;margin-bottom:12px;">Posting location and mentor not yet assigned. Complete this to activate the intern record.</div>
+      <button class="btn btn-gold" onclick="openAssignModal('${id}')">Assign Posting & Mentor →</button>
     </div>` : ''}
 
-    <div style="display:flex;gap:10px;">
-      <button class="btn btn-secondary" onclick="editIntern('${id}')">✏️ Edit</button>
+    <div class="milestone-card">
+      ${milestones.map(m => `
+        <div class="milestone-row">
+          <div class="milestone-icon ${c[m.key]?'done':'pending'}">${m.icon}</div>
+          <div class="milestone-text">
+            <div class="milestone-label">${m.label}</div>
+            <div class="milestone-sub">${m.sub}</div>
+          </div>
+          ${m.toggleable ? `<button class="toggle-btn ${c[m.key]?'unmark':'mark'}" onclick="event.stopPropagation();toggleCheck('${id}','${m.key}',${c[m.key]})">
+            ${c[m.key]?'Unmark':'Mark ✓'}
+          </button>` : (draft && m.key==='mentor' ? '' : '')}
+        </div>`).join('')}
+    </div>
+
+    <div class="info-grid" style="margin-bottom:14px;">
+      <div class="info-card">
+        <div class="info-label">Mentor</div>
+        <div class="info-val">${i.mentor_name||'—'}</div>
+        <div style="font-size:0.72rem;color:var(--mist);margin-top:2px;">${i.mentor_designation||''}</div>
+      </div>
+      <div class="info-card">
+        <div class="info-label">Contact</div>
+        <div class="info-val" style="font-size:0.82rem;">${i.phone||'—'}</div>
+        <div style="font-size:0.68rem;color:var(--teal);margin-top:2px;">${i.email||''}</div>
+      </div>
+    </div>
+
+    ${i.objective ? `<div class="info-card" style="margin-bottom:14px;">
+      <div class="info-label">Objective</div>
+      <div style="font-size:0.85rem;line-height:1.65;color:var(--ink2);margin-top:4px;">${i.objective}</div>
+    </div>` : ''}
+
+    <div class="btn-row">
+      <button class="btn btn-secondary" onclick="editIntern('${id}')">✏ Edit</button>
       <button class="btn btn-danger" onclick="deleteIntern('${id}')">🗑 Delete</button>
     </div>
   `;
 }
 
-async function toggleCheck(internId, action, currentState) {
-  const table = { attendance: 'attendance', report: 'reports', certificate: 'certificates' }[action];
+async function toggleCheck(internId, key, current) {
+  const table = { attendance:'attendance', report:'reports', certificate:'certificates' }[key];
   if (!table) return;
-  if (currentState) {
+  if (current) {
     await db.from(table).delete().eq('intern_id', internId);
   } else {
     const row = { intern_id: internId };
-    if (action === 'attendance') { row.date = new Date().toISOString().split('T')[0]; row.present = true; }
-    if (action === 'report') { row.title = 'Internship Report'; row.submitted_at = new Date().toISOString(); }
-    if (action === 'certificate') { row.issued_at = new Date().toISOString(); }
+    if (key==='attendance') { row.date = new Date().toISOString().split('T')[0]; row.present = true; }
+    if (key==='report')     { row.title = 'Internship Report'; row.submitted_at = new Date().toISOString(); }
+    if (key==='certificate'){ row.issued_at = new Date().toISOString(); }
     await db.from(table).insert(row);
   }
-  await loadChecklist();
-  updateStats();
-  filterHomeList();
-  openDetail(internId);
-  showToast(currentState ? 'Unmarked' : 'Marked ✓', 'success');
+  await loadChecklist(); updateStats(); filterHome(); openDetail(internId);
+  showToast(current ? 'Unmarked' : 'Marked ✓', 'success');
 }
 
-// ── ADD INTERN ────────────────────────────────────────────
+// ASSIGN MODAL
+function openAssignModal(id) {
+  assigningId = id;
+  const i = allInterns.find(x=>x.id===id);
+  document.getElementById('assign-intern-name').textContent = 'Assigning for: '+i.full_name;
+  document.getElementById('assign-modal').classList.add('show');
+}
+function closeAssignModal() { document.getElementById('assign-modal').classList.remove('show'); assigningId=null; }
+
+async function submitAssign() {
+  const loc = document.getElementById('a-location').value.trim();
+  const mentor = document.getElementById('a-mentor').value.trim();
+  if (!loc || !mentor) { showToast('Location & mentor required', 'error'); return; }
+  await db.from('interns').update({
+    posting_location: loc,
+    posting_start: document.getElementById('a-start').value||null,
+    posting_end:   document.getElementById('a-end').value||null,
+    mentor_name:   mentor,
+    mentor_designation: document.getElementById('a-mdesig').value.trim(),
+    objective: document.getElementById('a-objective').value.trim(),
+  }).eq('id', assigningId);
+  closeAssignModal();
+  showToast('Intern activated! ✓', 'success');
+  await refreshAll();
+  openDetail(assigningId);
+}
+
+// ADD / EDIT INTERN
 async function submitIntern() {
   const name = document.getElementById('f-name').value.trim();
   const college = document.getElementById('f-college').value.trim();
-  const location = document.getElementById('f-location').value;
-  const mentor = document.getElementById('f-mentor').value.trim();
-  if (!name || !college || !location || !mentor) {
-    showToast('Please fill required fields (*)', 'error'); return;
-  }
+  if (!name || !college) { showToast('Name & college required', 'error'); return; }
   const payload = {
     full_name: name, college,
     department: document.getElementById('f-dept').value.trim(),
     academic_year: document.getElementById('f-year').value.trim(),
-    posting_location: location,
-    posting_start: document.getElementById('f-start').value || null,
-    posting_end: document.getElementById('f-end').value || null,
-    mentor_name: mentor,
+    phone: document.getElementById('f-phone').value.trim(),
+    email: document.getElementById('f-email').value.trim(),
+    posting_location: document.getElementById('f-location').value.trim()||null,
+    posting_start: document.getElementById('f-start').value||null,
+    posting_end:   document.getElementById('f-end').value||null,
+    mentor_name: document.getElementById('f-mentor').value.trim()||null,
     mentor_designation: document.getElementById('f-mdesig').value.trim(),
     objective: document.getElementById('f-objective').value.trim(),
   };
   const { error } = await db.from('interns').insert(payload);
-  if (error) { showToast('Error: ' + error.message, 'error'); return; }
+  if (error) { showToast('Error: '+error.message, 'error'); return; }
   showToast('Intern registered!', 'success');
-  clearForm();
-  await refreshAll();
-  showScreen('home');
+  clearAddForm(); await refreshAll(); showScreen('home');
 }
 
-function clearForm() {
-  ['f-name','f-college','f-dept','f-year','f-start','f-end','f-mentor','f-mdesig','f-objective'].forEach(id => {
-    document.getElementById(id).value = '';
+function clearAddForm() {
+  ['f-name','f-college','f-dept','f-year','f-phone','f-email','f-location','f-start','f-end','f-mentor','f-mdesig','f-objective'].forEach(id => {
+    const el = document.getElementById(id); if (el) el.value='';
   });
-  document.getElementById('f-location').value = '';
+  document.getElementById('submit-btn').textContent = '✦ Register Intern';
+  document.getElementById('submit-btn').onclick = submitIntern;
 }
 
-// ── EDIT / DELETE ─────────────────────────────────────────
 function editIntern(id) {
-  const i = allInterns.find(x => x.id === id);
-  if (!i) return;
+  const i = allInterns.find(x=>x.id===id); if (!i) return;
   showScreen('add');
-  document.getElementById('f-name').value = i.full_name||'';
-  document.getElementById('f-college').value = i.college||'';
-  document.getElementById('f-dept').value = i.department||'';
-  document.getElementById('f-year').value = i.academic_year||'';
-  document.getElementById('f-location').value = i.posting_location||'';
-  document.getElementById('f-start').value = i.posting_start||'';
-  document.getElementById('f-end').value = i.posting_end||'';
-  document.getElementById('f-mentor').value = i.mentor_name||'';
-  document.getElementById('f-mdesig').value = i.mentor_designation||'';
-  document.getElementById('f-objective').value = i.objective||'';
-  // Override submit to update
-  document.querySelector('#screen-add .btn-primary').textContent = '✦ Update Intern';
-  document.querySelector('#screen-add .btn-primary').onclick = async () => {
-    const payload = {
+  const fields = { 'f-name':i.full_name,'f-college':i.college,'f-dept':i.department,'f-year':i.academic_year,'f-phone':i.phone,'f-email':i.email,'f-location':i.posting_location,'f-start':i.posting_start,'f-end':i.posting_end,'f-mentor':i.mentor_name,'f-mdesig':i.mentor_designation,'f-objective':i.objective };
+  Object.entries(fields).forEach(([k,v]) => { const el=document.getElementById(k); if (el) el.value=v||''; });
+  const btn = document.getElementById('submit-btn');
+  btn.textContent = '✦ Update Intern';
+  btn.onclick = async () => {
+    await db.from('interns').update({
       full_name: document.getElementById('f-name').value.trim(),
       college: document.getElementById('f-college').value.trim(),
       department: document.getElementById('f-dept').value.trim(),
       academic_year: document.getElementById('f-year').value.trim(),
-      posting_location: document.getElementById('f-location').value,
+      phone: document.getElementById('f-phone').value.trim(),
+      email: document.getElementById('f-email').value.trim(),
+      posting_location: document.getElementById('f-location').value.trim()||null,
       posting_start: document.getElementById('f-start').value||null,
       posting_end: document.getElementById('f-end').value||null,
-      mentor_name: document.getElementById('f-mentor').value.trim(),
+      mentor_name: document.getElementById('f-mentor').value.trim()||null,
       mentor_designation: document.getElementById('f-mdesig').value.trim(),
       objective: document.getElementById('f-objective').value.trim(),
-    };
-    await db.from('interns').update(payload).eq('id', id);
-    showToast('Updated!', 'success');
-    clearForm();
-    document.querySelector('#screen-add .btn-primary').textContent = '✦ Register Intern';
-    document.querySelector('#screen-add .btn-primary').onclick = submitIntern;
-    await refreshAll();
-    showScreen('home');
+    }).eq('id', id);
+    showToast('Updated ✓', 'success');
+    clearAddForm(); await refreshAll(); showScreen('home');
   };
 }
 
 async function deleteIntern(id) {
-  if (!confirm('Delete this intern record?')) return;
+  if (!confirm('Delete this intern record permanently?')) return;
   await db.from('interns').delete().eq('id', id);
   showToast('Deleted', 'success');
-  await refreshAll();
-  showScreen('home');
+  await refreshAll(); showScreen('home');
 }
 
-// ── MENTORS ───────────────────────────────────────────────
+// MENTORS
 function renderMentors() {
   const container = document.getElementById('mentor-list');
   if (!allMentors.length) {
-    container.innerHTML = `<div class="empty"><div class="empty-icon">👨‍⚕️</div><div class="empty-text">No mentors yet. Add one!</div></div>`;
+    container.innerHTML = `<div class="empty"><div class="empty-art">👨‍⚕️</div><div class="empty-msg">No mentors yet.<br>Add your first mentor profile.</div></div>`;
     return;
   }
   container.innerHTML = allMentors.map(m => {
-    const assigned = allInterns.filter(i => (i.mentor_name||'').toLowerCase() === (m.name||'').toLowerCase()).length;
-    const initials = m.name.split(' ').map(w=>w[0]).slice(0,2).join('').toUpperCase();
-    return `<div class="card card-sm" style="display:flex;align-items:center;gap:14px;">
-      <div class="mentor-avatar">${initials}</div>
+    const count = allInterns.filter(i => (i.mentor_name||'').toLowerCase() === (m.name||'').toLowerCase()).length;
+    return `<div class="mentor-card">
+      <div class="mentor-avatar">${initials(m.name)}</div>
       <div style="flex:1;">
-        <div style="font-weight:600;">${m.name}</div>
-        <div style="font-size:0.78rem;color:var(--muted);">${m.designation||''} · ${m.department||''}</div>
-        ${m.email ? `<div style="font-size:0.72rem;color:var(--teal);">${m.email}</div>` : ''}
-        <div style="font-size:0.7rem;color:var(--muted);margin-top:2px;">${assigned} intern${assigned!==1?'s':''} assigned</div>
+        <div class="mentor-name">${m.name}</div>
+        <div class="mentor-sub">${m.designation||''} ${m.department?'· '+m.department:''}</div>
+        ${m.email?`<div style="font-size:0.68rem;color:var(--teal);margin-top:2px;">${m.email}</div>`:''}
+        <div class="mentor-count">${count} intern${count!==1?'s':''} assigned</div>
       </div>
       <button class="toggle-btn unmark" onclick="deleteMentor('${m.id}')">✕</button>
     </div>`;
   }).join('');
 }
 
-function openAddMentorModal() {
-  document.getElementById('mentor-modal').classList.add('show');
-}
-function closeMentorModal() {
-  document.getElementById('mentor-modal').classList.remove('show');
-}
+function openMentorModal() { document.getElementById('mentor-modal').classList.add('show'); }
+function closeMentorModal() { document.getElementById('mentor-modal').classList.remove('show'); }
 
 async function submitMentor() {
   const name = document.getElementById('m-name').value.trim();
   if (!name) { showToast('Name required', 'error'); return; }
   const { error } = await db.from('mentors').insert({
-    name,
-    designation: document.getElementById('m-desig').value.trim(),
+    name, designation: document.getElementById('m-desig').value.trim(),
     department: document.getElementById('m-dept').value.trim(),
     email: document.getElementById('m-email').value.trim(),
     phone: document.getElementById('m-phone').value.trim(),
   });
   if (error) { showToast('Error: '+error.message,'error'); return; }
   ['m-name','m-desig','m-dept','m-email','m-phone'].forEach(id => document.getElementById(id).value='');
-  closeMentorModal();
-  await loadMentors();
-  renderMentors();
-  showToast('Mentor added!','success');
+  closeMentorModal(); await loadMentors(); renderMentors();
+  showToast('Mentor added ✓', 'success');
 }
 
 async function deleteMentor(id) {
-  if (!confirm('Remove this mentor?')) return;
+  if (!confirm('Remove mentor?')) return;
   await db.from('mentors').delete().eq('id', id);
-  await loadMentors();
-  renderMentors();
-  showToast('Removed','success');
+  await loadMentors(); renderMentors(); showToast('Removed','success');
 }
 
-// ── NAVIGATION ────────────────────────────────────────────
+// NAV
 function showScreen(name) {
-  document.querySelectorAll('.screen').forEach(s => s.classList.remove('active'));
-  document.querySelectorAll('.nav-item').forEach(n => n.classList.remove('active'));
+  document.querySelectorAll('.screen').forEach(s=>s.classList.remove('active'));
+  document.querySelectorAll('.nav-item').forEach(n=>n.classList.remove('active'));
   document.getElementById('screen-'+name).classList.add('active');
-  const navEl = document.getElementById('nav-'+name);
-  if (navEl) navEl.classList.add('active');
+  const nav = document.getElementById('nav-'+name);
+  if (nav) nav.classList.add('active');
   window.scrollTo(0,0);
 }
 
-// ── TOAST ─────────────────────────────────────────────────
+// TOAST
 function showToast(msg, type='') {
   const t = document.getElementById('toast');
-  t.textContent = msg;
-  t.className = 'toast show ' + type;
-  setTimeout(() => { t.className = 'toast'; }, 2500);
+  t.textContent = msg; t.className = 'toast show '+type;
+  setTimeout(()=>{ t.className='toast'; }, 2500);
 }
 
-// Close modal on overlay click
-document.getElementById('mentor-modal').addEventListener('click', function(e) {
-  if (e.target === this) closeMentorModal();
+// Close modals on overlay click
+['mentor-modal','assign-modal'].forEach(id => {
+  document.getElementById(id).addEventListener('click', function(e) {
+    if (e.target===this) this.classList.remove('show');
+  });
 });
+
+// Add phone/email columns if missing
+async function ensureColumns() {
+  await db.rpc('exec', { sql: `
+    alter table interns add column if not exists phone text;
+    alter table interns add column if not exists email text;
+  `}).catch(()=>{});
+}
+ensureColumns();
 </script>
 </body>
 </html>
